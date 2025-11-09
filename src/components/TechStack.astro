@@ -1,0 +1,99 @@
+---
+import type { TechStackProps } from "@types";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  techStack: {
+    frontend: TechStackProps[];
+    backend: TechStackProps[];
+  };
+}
+
+const { techStack } = Astro.props;
+
+// Configuración para cada fila
+const rows = [
+  {
+    icons: techStack.frontend,
+    duration: 30,
+  },
+  {
+    icons: techStack.backend,
+    duration: 40,
+  },
+];
+
+// Generar datos de animación para cada fila
+const rowsWithAnimation = rows.map((row) => ({
+  ...row,
+  iconsWithAnimation: row.icons.map((tech, index) => ({
+    ...tech,
+    delay: -(index * (row.duration / row.icons.length)),
+    duration: row.duration,
+  })),
+}));
+---
+
+<section id="techstack" class="py-24">
+  <div class="mx-auto max-w-3xl px-5">
+    <h2
+      class="mb-14 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
+    >
+      Tech Stack
+    </h2>
+  </div>
+  <div
+    class="relative overflow-hidden w-screen"
+    style="margin-left: calc(50% - 50vw); container-type: inline-size;"
+  >
+    <div class="grid grid-cols-1">
+      {rowsWithAnimation.map((row, rowIndex) => (
+        <div class="relative h-32 mb-10">
+          {row.iconsWithAnimation.map((tech) => (
+            <div
+              class="tech-icon absolute top-1/2 -translate-y-1/2"
+              aria-label={tech.name}
+              style={`animation-delay: ${tech.delay}s; animation-duration: ${tech.duration}s;`}
+            >
+              <Icon
+                name={tech.icon}
+                size={80}
+                class="transition-all duration-300"
+              />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes move-x {
+    from {
+      transform: translateX(var(--move-x-from, -100%));
+    }
+    to {
+      transform: translateX(var(--move-x-to, calc(100% + 100cqw)));
+    }
+  }
+
+  .tech-icon {
+    animation-name: move-x;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    --move-x-from: -100%;
+    --move-x-to: calc(100% + 100cqw);
+  }
+
+  .tech-icon :global(svg) {
+    filter: grayscale(100%) opacity(0.5);
+    transition: filter 0.3s ease;
+  }
+
+  .tech-icon:hover :global(svg) {
+    filter: grayscale(0%) opacity(1);
+  }
+</style>
+
