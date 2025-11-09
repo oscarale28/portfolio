@@ -1,5 +1,6 @@
 ---
-import { SITE_CONTENT } from "@config";
+import { SITE_CONFIG_ES, SITE_CONTENT_ES } from "../i18n/es";
+import { useTranslations } from "../i18n/utils";
 import Hero from "@components/Hero.astro";
 import Layout from "@layouts/Layout.astro";
 import Experience from "@components/Experience.astro";
@@ -9,13 +10,16 @@ import Projects from "@components/Projects.astro";
 import About from "@components/About.astro";
 
 import "../styles/global.css";
+
+const currentLang = "es";
+const t = useTranslations(currentLang);
 ---
 
-<Layout>
-  <Hero {...SITE_CONTENT.hero} />
-  <Experience experience={SITE_CONTENT.experience} />
-  <Education education={SITE_CONTENT.education} />
-  <TechStack techStack={SITE_CONTENT.techStack} />
-  <Projects projects={SITE_CONTENT.projects} />
-  <About {...SITE_CONTENT.about} name={SITE_CONTENT.hero.name} />
+<Layout siteConfig={SITE_CONFIG_ES} currentLang={currentLang}>
+  <Hero {...SITE_CONTENT_ES.hero} />
+  <Experience experience={SITE_CONTENT_ES.experience} sectionTitle={t("section.experience")} />
+  <Education education={SITE_CONTENT_ES.education} sectionTitle={t("section.education")} />
+  <TechStack techStack={SITE_CONTENT_ES.techStack} sectionTitle={t("section.techstack")} />
+  <Projects projects={SITE_CONTENT_ES.projects} sectionTitle={t("section.projects")} t={t} />
+  <About {...SITE_CONTENT_ES.about} name={SITE_CONTENT_ES.hero.name} sectionTitle={t("section.about")} />
 </Layout>

@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* Theme colors - CSS variables for dark/light mode */
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #0e141b;
+  --bg-secondary: #1c232d;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(148, 163, 184, 0.2);
+  --accent-color: #2563eb;
+}
+
+:root.light {
+  /* Light theme */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(15, 23, 42, 0.1);
+  --accent-color: #2563eb;
+}
+
 @theme {
   --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
   --font-serif: "Gabarito Variable", ui-serif, serif;
@@ -55,4 +76,30 @@
 
 .section-container {
   @apply mx-auto max-w-3xl px-5;
+}
+
+/* Theme utility classes */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+  transition: background-color 0.3s ease;
+}
+
+.text-theme-primary {
+  color: var(--text-primary);
+  transition: color 0.3s ease;
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.border-theme {
+  border-color: var(--border-color);
+  transition: border-color 0.3s ease;
 }

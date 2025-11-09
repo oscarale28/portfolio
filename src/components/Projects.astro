@@ -6,28 +6,30 @@ import type { ProjectProps } from "@types";
 
 interface Props {
   projects: ProjectProps[];
+  sectionTitle: string;
+  t: (key: any) => string;
 }
 
-const { projects } = Astro.props;
+const { projects, sectionTitle, t } = Astro.props;
 ---
 
-<Section text="Featured Projects" href="projects">
+<Section text={sectionTitle} href="projects">
   {
     projects.map(({ name, summary, image, linkPreview, linkSource, technologies, inProgress }, index) => {
       const top = 98 + index * 40;
       return (
         <div
           style={`top: ${top}px;`}
-          class="sticky mb-12 rounded-2xl border border-neutral/20 bg-black"
+          class="sticky mb-12 rounded-2xl border border-theme bg-theme-primary"
         >
-          <div class="bg-difu relative z-[1] grid w-full grid-rows-[auto_1fr] rounded-2xl bg-[#1c232d]/85 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] sm:grid-cols-2 sm:grid-rows-1 sm:h-96">
+          <div class="bg-difu relative z-[1] grid w-full grid-rows-[auto_1fr] rounded-2xl bg-theme-secondary before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] sm:grid-cols-2 sm:grid-rows-1 sm:h-96">
             <div class="px-6 py-8 flex flex-col min-h-0">
               <div class="mb-4">
                 <h3 class="font-serif text-3xl font-medium text-primary">
                   {name}
                 </h3>
               </div>
-              <p class="text-base text-neutral mb-4 line-clamp-4">{summary}</p>
+              <p class="text-base mb-4 line-clamp-4 text-theme-secondary">{summary}</p>
               
               {/* Tecnologías utilizadas */}
               <div class="flex flex-wrap gap-2 mb-6">
@@ -38,15 +40,16 @@ const { projects } = Astro.props;
                 ))}
               </div>
               
-              <div class="flex gap-5 mt-auto pt-4 text-white border-t border-neutral/10">
+              <div class="flex gap-5 mt-auto pt-4 text-theme-primary border-t border-theme">
                 {linkSource && (
                   <a
                     href={linkSource}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline"
+                    class="flex items-center gap-2 hover:underline text-theme-primary"
                   >
-                    Source
+                    {t("button.source")}
+                    <Icon name="solar:arrow-right-up-linear" size={24} />
                   </a>
                 )}
                 {linkPreview && (
@@ -54,9 +57,10 @@ const { projects } = Astro.props;
                     href={linkPreview}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline"
+                    class="flex items-center gap-2 hover:underline text-theme-primary"
                   >
-                    Preview
+                    {t("button.preview")}
+                    <Icon name="solar:arrow-right-up-linear" size={24} />
                   </a>
                 )}
               </div>
@@ -87,7 +91,7 @@ const { projects } = Astro.props;
                         d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                       />
                     </svg>
-                    <p class="text-primary/80 font-medium text-sm">En desarrollo</p>
+                    <p class="text-primary/80 font-medium text-sm">{t("status.inProgress")}</p>
                   </div>
                 </div>
               )}

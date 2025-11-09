@@ -1,15 +1,19 @@
 ---
 import Menu from "@icons/Menu.astro";
 import { Image } from "astro:assets";
-import type { HeaderProps } from "@types";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import type { HeaderProps, Lang } from "@types";
 
-type Props = HeaderProps;
+interface Props extends HeaderProps {
+  currentLang: Lang;
+}
 
-const { siteLogo, navLinks } = Astro.props;
+const { siteLogo, navLinks, currentLang } = Astro.props;
 ---
 
 <header
-  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between bg-black px-5 py-6"
+  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between px-5 py-6 bg-theme-primary"
 >
   <a href="/" aria-label="Home link">
     <Image
@@ -32,15 +36,15 @@ const { siteLogo, navLinks } = Astro.props;
   </button>
 
   <nav
-    class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-black px-4 py-5 text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
+    class="absolute top-20 right-5 hidden rounded-xl border border-theme px-4 py-5 sm:static sm:flex sm:items-center sm:gap-3 sm:border-0 sm:bg-transparent sm:p-0 bg-theme-primary text-theme-secondary"
     id="main-menu"
   >
-    <ul class="gap-2 sm:flex">
+    <ul class="gap-2 sm:flex mb-3 sm:mb-0">
       {
         navLinks.map((link) => (
           <li class="relative">
             <a
-              class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-white`}
+              class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] text-theme-secondary`}
               href={link.href}
             >
               {link.text}
@@ -49,6 +53,10 @@ const { siteLogo, navLinks } = Astro.props;
         ))
       }
     </ul>
+    <div class="flex items-center gap-3 border-t border-theme sm:border-t-0 pt-3 sm:pt-0">
+      <ThemeToggle />
+      <LanguageSwitcher currentLang={currentLang} />
+    </div>
   </nav>
 </header>
 
@@ -75,10 +83,14 @@ const { siteLogo, navLinks } = Astro.props;
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
-            if (item.getAttribute("href") === `#${entry.target.id}`) {
-              item.classList.add("text-white", "md:after:opacity-100");
+            const element = item as unknown as HTMLElement;
+            if (element.getAttribute("href") === `#${entry.target.id}`) {
+              element.classList.remove("text-theme-secondary");
+              element.classList.add("text-theme-primary", "md:after:opacity-100");
             } else {
-              item.classList.remove("text-white", "md:after:opacity-100");
+              element.classList.remove("text-theme-primary");
+              element.classList.add("text-theme-secondary");
+              element.classList.remove("md:after:opacity-100");
             }
           });
         }

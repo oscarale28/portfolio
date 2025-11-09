@@ -7,9 +7,10 @@ interface Props {
     frontend: TechStackProps[];
     backend: TechStackProps[];
   };
+  sectionTitle: string;
 }
 
-const { techStack } = Astro.props;
+const { techStack, sectionTitle } = Astro.props;
 
 // Configuración para cada fila
 const rows = [
@@ -37,9 +38,9 @@ const rowsWithAnimation = rows.map((row) => ({
 <section id="techstack" class="py-24">
   <div class="mx-auto max-w-3xl px-5">
     <h2
-      class="mb-14 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
+      class="mb-14 font-serif text-4xl font-bold tracking-tighter md:text-5xl text-theme-primary"
     >
-      Tech Stack
+      {sectionTitle}
     </h2>
   </div>
   <div

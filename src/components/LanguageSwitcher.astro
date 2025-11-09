@@ -1,0 +1,70 @@
+---
+import type { Lang } from "@types";
+
+interface Props {
+  currentLang: Lang;
+}
+
+const { currentLang } = Astro.props;
+---
+
+<div class="language-switcher">
+  <a
+    href="/"
+    class:list={[
+      "lang-option",
+      { active: currentLang === "es" },
+    ]}
+    aria-label="Cambiar a Español"
+  >
+    ES
+  </a>
+  <a
+    href="/en/"
+    class:list={[
+      "lang-option",
+      { active: currentLang === "en" },
+    ]}
+    aria-label="Switch to English"
+  >
+    EN
+  </a>
+</div>
+
+<style>
+  .language-switcher {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background: rgba(148, 163, 184, 0.05);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+  }
+
+  .lang-option {
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .lang-option:hover {
+    color: var(--text-primary);
+    background: rgba(148, 163, 184, 0.1);
+  }
+
+  .lang-option.active {
+    color: var(--text-primary);
+    background: rgba(148, 163, 184, 0.2);
+  }
+
+  :global(.light) .lang-option.active {
+    background: rgba(37, 99, 235, 0.15);
+  }
+</style>
+

@@ -1,10 +1,11 @@
+export type Lang = "es" | "en";
+
 export interface SiteConfig extends HeaderProps {
   title: string;
   description: string;
   lang: string;
   author: string;
   socialLinks: { text: string; href: string }[];
-  socialImage: string;
   canonicalURL?: string;
 }
 

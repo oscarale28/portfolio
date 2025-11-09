@@ -1,0 +1,104 @@
+---
+import { Icon } from "astro-icon/components";
+
+// Theme Toggle Component
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="theme-toggle"
+  aria-label="Toggle theme"
+  title="Toggle theme"
+>
+  <Icon name="solar:sun-bold" size={20} class="sun-icon" />
+  <Icon name="solar:moon-bold" size={20} class="moon-icon" />
+</button>
+
+<script>
+  function initTheme() {
+    const themeToggle = document.getElementById("theme-toggle");
+    const htmlElement = document.documentElement;
+
+    function updateThemeIcon() {
+      const isDark = !htmlElement.classList.contains("light");
+      const sunIcon = themeToggle?.querySelector(".sun-icon") as HTMLElement | null;
+      const moonIcon = themeToggle?.querySelector(".moon-icon") as HTMLElement | null;
+      
+      if (sunIcon && moonIcon) {
+        if (isDark) {
+          sunIcon.style.display = "none";
+          moonIcon.style.display = "block";
+        } else {
+          sunIcon.style.display = "block";
+          moonIcon.style.display = "none";
+        }
+      }
+    }
+
+    function toggleTheme() {
+      const isLight = htmlElement.classList.contains("light");
+      
+      if (isLight) {
+        htmlElement.classList.remove("light");
+        localStorage.setItem("theme", "dark");
+      } else {
+        htmlElement.classList.add("light");
+        localStorage.setItem("theme", "light");
+      }
+      
+      updateThemeIcon();
+    }
+
+    // Initialize icon state
+    updateThemeIcon();
+
+    // Add click listener
+    themeToggle?.addEventListener("click", toggleTheme);
+  }
+
+  // Initialize on page load
+  initTheme();
+
+  // Re-initialize on navigation (for SPAs)
+  document.addEventListener("astro:page-load", initTheme);
+</script>
+
+<style>
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  :global(.light) .theme-toggle {
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    color: rgba(15, 23, 42, 0.7);
+  }
+
+  :global(.light) .theme-toggle:hover {
+    background: rgba(15, 23, 42, 0.1);
+    color: rgba(15, 23, 42, 0.9);
+  }
+
+  .sun-icon,
+  .moon-icon {
+    display: block;
+  }
+</style>
+

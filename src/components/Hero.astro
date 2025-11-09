@@ -7,7 +7,7 @@ const { name, specialty, summary, email } = Astro.props;
 
 <section class="section-container py-24 md:py-32" id="#hero">
   <h1
-    class="mb-1.5 font-serif text-7xl font-bold tracking-tightest text-white sm:text-8xl md:mb-0 md:text-9xl"
+    class="mb-1.5 font-serif text-7xl font-bold tracking-tightest sm:text-8xl md:mb-0 md:text-9xl text-theme-primary"
   >
     {name}
   </h1>
@@ -16,12 +16,12 @@ const { name, specialty, summary, email } = Astro.props;
   >
     {specialty}
   </p>
-  <p class="mb-16 text-base font-normal text-neutral md:text-lg">
+  <p class="mb-16 text-base font-normal md:text-lg text-theme-secondary">
     {summary}
   </p>
 
   <a
-    class="inline-block rounded-full bg-primary px-8 py-5 text-sm leading-5 font-medium text-[#fff]"
+    class="inline-block rounded-full bg-primary px-8 py-5 text-sm leading-5 font-medium text-[#fff] hover:opacity-90 transition-opacity duration-300"
     href={`mailto:${email}`}>Get in Touch</a
   >
 </section>
